@@ -155,8 +155,10 @@ life_argv_parse(int argc, char * argv[], life_settings_t * settings)
             }
 
         } else {
+
             fprintf(stderr, "Error: %s: %s: %i: unknown parametr.\n", 
                              __FILE__, __func__, __LINE__);
+
             return 1;
         }
     }
