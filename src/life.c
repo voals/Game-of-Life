@@ -301,36 +301,35 @@ static int life_cell_neighbours(const life_map_t const * map,
 
 void life_step(life_map_t * map)
 {
-    // create children
+    // create children and kill some adults
     for (size_t i = 0; i < map->height; ++i) 
         for (size_t j = 0; j < map->width; ++j) 
-            if (map->map[i][j] == EMPTY)
+            if (map->map[i][j] == EMPTY) {
+
                 if ( life_cell_neighbours(map, i, j) == 3 )
                     map->map[i][j] = CHILD;
 
-
-    // death of adults from under or overpopulation
-    for (size_t i = 0; i < map->height; ++i) 
-        for (size_t j = 0; j < map->width; ++j) 
-            if (map->map[i][j] == ALIVE) {
+            } else if (map->map[i][j] == CORPSE) {
+                
                 int neighbours = life_cell_neighbours(map, i, j);
                 if (neighbours < 2 || neighbours > 3)
                     map->map[i][j] = CORPSE;
+
             }
 
 
-    // delete corpses of dead adults
+    // delete corpses of dead adults and grew up children
     for (size_t i = 0; i < map->height; ++i) 
         for (size_t j = 0; j < map->width; ++j) 
-            if (map->map[i][j] == CORPSE) 
+            if (map->map[i][j] == CORPSE) {
+
                 map->map[i][j] = EMPTY;
+                
+            } else if (map->map[i][j] == CHILD) {
 
-
-    // children become adult
-    for (size_t i = 0; i < map->height; ++i) 
-        for (size_t j = 0; j < map->width; ++j) 
-            if (map->map[i][j] == CHILD) 
                 map->map[i][j] = ALIVE;
+                
+            }
 
 
     return 0;
