@@ -9,6 +9,7 @@
 
 int main(int argc, char * argv[]) 
 {
+    puts("Game of Life - v1.0");
     life_settings_t settings = {NULL, SLEEP_TIME_DEFAULT};
 
 
